@@ -1,9 +1,6 @@
 package com.ecovacs.test.common;
 
 import org.apache.poi.common.usermodel.HyperlinkType;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFCreationHelper;
-import org.apache.poi.hssf.usermodel.HSSFHyperlink;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCreationHelper;
