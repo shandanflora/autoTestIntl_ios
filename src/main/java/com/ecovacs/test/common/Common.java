@@ -38,28 +38,14 @@ public class Common {
     public IOSDriver getDriver(){
         IOSDriver driver = null;
         // set up appium
-        /*File classpathRoot = new File(System.getProperty("user.dir"));
-        System.out.println(System.getProperty("user.dir"));
-        File appDir = new File(classpathRoot, "/src/app/");
-        File app = new File(appDir, "NetDeeAnbot.app");*/
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        //capabilities.setCapability(MobileCapabilityType.VERSION, "9.2");
+        capabilities.setCapability(MobileCapabilityType.VERSION, "9.2");
         capabilities.setCapability(MobileCapabilityType.ACCEPT_SSL_CERTS,true);
-        capabilities.setCapability(MobileCapabilityType.PLATFORM, "Android");
-        //capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "Browser");
-        capabilities.setCapability("deviceName","AndroidTestDevice");
-        //capabilities.setCapability("deviceName","vivo_X6S_A");
-        capabilities.setCapability("platformName", "Android");
-        capabilities.setCapability("appPackage","com.ecovacs.ecosphere.intl");
-        capabilities.setCapability("appActivity","com.ecovacs.ecosphere.ui.WelcomeActivity");
-        capabilities.setCapability("newCommandTimeout", 0);
-        /*capabilities.setCapability("app", app.getAbsolutePath());
-        System.out.println(app.getAbsolutePath());*/
-        //capabilities.setCapability(MobileCapabilityType.APP,"com.iqiyi.reliao");
-        //driver.manage().timeouts().implicitlyWait(20L, TimeUnit.SECONDS);
+        capabilities.setCapability(MobileCapabilityType.PLATFORM, "Mac");
+        capabilities.setCapability("deviceName","iphone 4s");
+        capabilities.setCapability("platformName", "ios");
         try {
             driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-            //driver.startActivity("com.ecovacs.ecosphere.intl", "com.ecovacs.ecosphere.ui.WelcomeActivity");
         }catch (MalformedURLException e){
             e.printStackTrace();
             logger.info("exception: " + e.toString());
