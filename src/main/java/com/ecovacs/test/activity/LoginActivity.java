@@ -30,6 +30,9 @@ public class LoginActivity {
     private IOSElement btnLogin = null;
     @FindBy(xpath = "//UIAApplication[1]/UIAWindow[1]/UIAButton[7]")
     private IOSElement textViewForget = null;
+    @FindBy(xpath = "//UIAApplication[1]/UIAWindow[1]/UIAStaticText[4]")
+    private IOSElement staticPassword = null;
+
 
     public static LoginActivity getInstance(){
         if(loginActivity == null){
@@ -47,7 +50,7 @@ public class LoginActivity {
     }
 
     public boolean showLoginActivity(){
-        return Common.getInstance().showActivity(btnLogin);
+        return Common.getInstance().showActivity(editEmail);
     }
 
     public void clickCountry(){
@@ -56,7 +59,9 @@ public class LoginActivity {
 
     public void fillInfoAndClick(String strEmail, String strPass){
         editEmail.sendKeys(strEmail);
+        staticPassword.click();
         editPass.sendKeys(strPass);
+        staticPassword.click();
         btnLogin.click();
     }
 

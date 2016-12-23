@@ -30,6 +30,8 @@ public class RegisterActivity {
     private IOSElement editRePassword = null;
     @iOSFindBy(xpath = "//UIAApplication[1]/UIAWindow[1]/UIAButton[6]")
     private IOSElement textViewUserAgree = null;
+    @iOSFindBy(xpath = "//UIAApplication[1]/UIAWindow[1]/UIAStaticText[3]")
+    private IOSElement staticTextEmail = null;
 
     private RegisterActivity(){
 
@@ -68,7 +70,7 @@ public class RegisterActivity {
         editRePassword.sendKeys(strPass);
         logger.info("Filled all information of user");
         //hide keyboard
-        Common.getInstance().goBack(driver, 1);
+        staticTextEmail.click();
         //screen shot user agreement
         clickAgreement();
         Common.getInstance().screenShot("UserAgree_" + strCountry + ".png", driver);
