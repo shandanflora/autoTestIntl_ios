@@ -86,8 +86,4 @@ public class MoreActivity {
         logger.info("Click button--Confirm Logout!!!");
         Common.getInstance().waitForSecond(500);
     }
-
-    public void clickConfirm(){
-        btnConfirm.click();
-    }
 }
