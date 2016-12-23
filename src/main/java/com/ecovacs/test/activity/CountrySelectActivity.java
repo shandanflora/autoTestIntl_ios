@@ -1,7 +1,6 @@
 package com.ecovacs.test.activity;
 
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -49,15 +48,15 @@ public class CountrySelectActivity {
     }*/
 
     public boolean selectCountry(String strCountry){
-        //androidDriver.scrollTo(strCountry).click();
-        //String str = "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textContains(\"Japan\").instance(0))";
 
-        String str = "new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textContains(";
-        str = str + "\"" + strCountry + "\"" + ").instance(0))";
+        String path = "UIATarget.localTarget().frontMostApp().mainWindow()." +
+                "tableViews()[0].cells()[\"" + strCountry + "\"]";
+        //driver.executeScript(path + ".scrollToVisible();");
+
         MobileElement textViewCountry;
         try {
             textViewCountry = (MobileElement) driver
-                    .findElementByIosUIAutomation(str);
+                    .findElementByIosUIAutomation(path);
         }catch (NoSuchElementException e){
             logger.error("Can not find country: " + strCountry);
             return false;
