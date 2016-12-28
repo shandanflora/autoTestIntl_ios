@@ -23,7 +23,15 @@ public class Common {
     //parameter
     private static Logger logger = LoggerFactory.getLogger(Common.class);
     private static Common common = null;
+    private FailType failType = null;
+
+
     //
+    public enum FailType{
+        NOT_REGISTER, //user not register
+        ALREADY_REGISTER //user had registered
+    }
+
     private Common(){
 
     }
@@ -44,6 +52,7 @@ public class Common {
         capabilities.setCapability(MobileCapabilityType.PLATFORM, "Mac");
         capabilities.setCapability("deviceName","iphone 4s");
         capabilities.setCapability("platformName", "ios");
+        capabilities.setCapability("newCommandTimeout", 0);
         try {
             driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         }catch (MalformedURLException e){
@@ -172,6 +181,14 @@ public class Common {
             iLoop++;
         }
         return bResult;
+    }
+
+    public FailType getFailType(){
+        return failType;
+    }
+
+    public void setFailType(FailType type){
+        failType = type;
     }
 
 }
