@@ -66,16 +66,22 @@ public class RegisterActivity {
             return false;
         }
         editEmail.sendKeys(strEmail);
+        //hide keyboard
+        staticTextEmail.click();
         editPassword.sendKeys(strPass);
+        //hide keyboard
+        staticTextEmail.click();
         editRePassword.sendKeys(strPass);
+        //hide keyboard
+        staticTextEmail.click();
         logger.info("Filled all information of user");
         //hide keyboard
         staticTextEmail.click();
         //screen shot user agreement
-        clickAgreement();
+        /*clickAgreement();
         Common.getInstance().screenShot("UserAgree_" + strCountry + ".png", driver);
         Common.getInstance().goBack(driver, 1);
-        logger.info("Finished to screen shot user agreement!!!");
+        logger.info("Finished to screen shot user agreement!!!");*/
         btnRegister.click();
         return true;
     }
