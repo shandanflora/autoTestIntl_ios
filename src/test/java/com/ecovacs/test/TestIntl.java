@@ -1,9 +1,7 @@
 package com.ecovacs.test;
 
 import com.ecovacs.test.common.Common;
-import com.ecovacs.test.common.PropertyData;
-import io.appium.java_client.android.AndroidDriver;
-import org.testng.Assert;
+import io.appium.java_client.ios.IOSDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -13,7 +11,7 @@ import org.testng.annotations.Test;
  *
  */
 public class TestIntl {
-    private AndroidDriver driver = null;
+    private IOSDriver driver = null;
 
     @BeforeClass
     public void setUp(){
