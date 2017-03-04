@@ -29,8 +29,8 @@ public class TestIntlTranslate_English {
 
     @AfterClass
     public void tearDown(){
-        //HandleIntl.getInstance().changeLanguage(PropertyData.getProperty("French"));
-        //driver.quit();
+        HandleIntl.getInstance().changeLanguage(PropertyData.getProperty("French"));
+        driver.quit();
     }
 
     @Test

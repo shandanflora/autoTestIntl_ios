@@ -6,24 +6,24 @@
         <classes>
             <class name="com.ecovacs.test.TestIntlTranslate_English">
                 <methods>
-                    <!--<include name="translateWelcome"></include>
+                    <include name="translateWelcome"></include>
                     <include name="translateLogin"></include>
                     <include name="translateForget"></include>
-                    <include name="translateRegister"></include>-->
+                    <include name="translateRegister"></include>
                     <include name="translateMain"></include>
-                    <!--<include name="translateMore"></include>
+                    <include name="translateMore"></include>
                     <include name="translateAbout"></include>
                     <include name="translateUserAgree"></include>
                     <include name="translateLanguage"></include>
                     <include name="translateChangePass"></include>
                     <include name="translateUnibotClean"></include>
                     <include name="translateFullScreen"></include>
-                    <include name="translateVirtual"></include>-->
+                    <include name="translateVirtual"></include>
                     <include name="translateUnibotSetting"></include>
-                    <!--<include name="translateWorkLog"></include>
-                    <include name="translateContinueClean"></include>-->
+                    <include name="translateWorkLog"></include>
+                    <include name="translateContinueClean"></include>
                     <include name="translateResetMap"></include>
-                    <!--<include name="translateVoiceReport"></include>
+                    <include name="translateVoiceReport"></include>
                     <include name="translateFirmwareVer"></include>
                     <include name="translateNoTimeSchedule"></include>
                     <include name="translateRepetition"></include>
@@ -31,7 +31,7 @@
                     <include name="translateSelectWeekend"></include>
                     <include name="translateSelectWorkday"></include>
                     <include name="translateSelectEveryday"></include>
-                    <include name="translateNewSchedule"></include>-->
+                    <include name="translateNewSchedule"></include>
                 </methods>
             </class>
             <!--<class name="com.ecovacs.test.TestIntlTranslate_French">

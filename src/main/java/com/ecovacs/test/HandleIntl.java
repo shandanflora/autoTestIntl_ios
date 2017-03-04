@@ -392,7 +392,7 @@ class HandleIntl {
 
     boolean translateUnibotSetting(){
         //will delete
-        MainActivity.getInstance().clickDR95();
+        //MainActivity.getInstance().clickDR95();
         //
         UnibotCleanActivity.getInstance().showHaveMapActivity();
         UnibotCleanActivity.getInstance().clickSetting();
