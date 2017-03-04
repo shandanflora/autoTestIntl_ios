@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!-- allow-return-values 默认值为FALSE,表示返回值将被忽略 -->
+<suite name="Translation" allow-return-values="true">
+    <test verbose="2" name="TestMethods" preserve-order="true">
+        <classes>
+            <class name="com.ecovacs.test.TestIntlTranslate_English">
+                <methods>
+                    <!--<include name="translateWelcome"></include>
+                    <include name="translateLogin"></include>
+                    <include name="translateForget"></include>
+                    <include name="translateRegister"></include>-->
+                    <include name="translateMain"></include>
+                    <!--<include name="translateMore"></include>
+                    <include name="translateAbout"></include>
+                    <include name="translateUserAgree"></include>
+                    <include name="translateLanguage"></include>
+                    <include name="translateChangePass"></include>
+                    <include name="translateUnibotClean"></include>
+                    <include name="translateFullScreen"></include>
+                    <include name="translateVirtual"></include>-->
+                    <include name="translateUnibotSetting"></include>
+                    <!--<include name="translateWorkLog"></include>
+                    <include name="translateContinueClean"></include>-->
+                    <include name="translateResetMap"></include>
+                    <!--<include name="translateVoiceReport"></include>
+                    <include name="translateFirmwareVer"></include>
+                    <include name="translateNoTimeSchedule"></include>
+                    <include name="translateRepetition"></include>
+                    <include name="translateSelectWeekOfDate"></include>
+                    <include name="translateSelectWeekend"></include>
+                    <include name="translateSelectWorkday"></include>
+                    <include name="translateSelectEveryday"></include>
+                    <include name="translateNewSchedule"></include>-->
+                </methods>
+            </class>
+            <!--<class name="com.ecovacs.test.TestIntlTranslate_French">
+               <methods>
+                   <include name="translateWelcome"></include>
+                   <include name="translateLogin"></include>
+                   <include name="translateForget"></include>
+                   <include name="translateRegister"></include>
+                   <include name="translateMain"></include>
+                   <include name="translateMore"></include>
+                   <include name="translateAbout"></include>
+                   <include name="translateUserAgree"></include>
+                   <include name="translateLanguage"></include>
+                   <include name="translateChangePass"></include>
+                   <include name="translateUnibotClean"></include>
+                   <include name="translateFullScreen"></include>
+                   <include name="translateVirtual"></include>
+                   <include name="translateUnibotSetting"></include>
+                   <include name="translateWorkLog"></include>
+                   <include name="translateContinueClean"></include>
+                   <include name="translateResetMap"></include>
+                   <include name="translateVoiceReport"></include>
+                   <include name="translateFirmwareVer"></include>
+                   <include name="translateNoTimeSchedule"></include>
+                   <include name="translateRepetition"></include>
+                   <include name="translateSelectWeekOfDate"></include>
+                   <include name="translateSelectWeekend"></include>
+                   <include name="translateSelectWorkday"></include>
+                   <include name="translateSelectEveryday"></include>
+                   <include name="translateNewSchedule"></include>
+               </methods>
+           </class>
+           <class name="com.ecovacs.test.TestIntlTranslate_Italian">
+               <methods>
+                   <include name="translateWelcome"></include>
+                   <include name="translateLogin"></include>
+                   <include name="translateForget"></include>
+                   <include name="translateRegister"></include>
+                   <include name="translateMain"></include>
+                   <include name="translateMore"></include>
+                   <include name="translateAbout"></include>
+                   <include name="translateUserAgree"></include>
+                   <include name="translateLanguage"></include>
+                   <include name="translateChangePass"></include>
+                   <include name="translateUnibotClean"></include>
+                   <include name="translateFullScreen"></include>
+                   <include name="translateVirtual"></include>
+                   <include name="translateUnibotSetting"></include>
+                   <include name="translateWorkLog"></include>
+                   <include name="translateContinueClean"></include>
+                   <include name="translateResetMap"></include>
+                   <include name="translateVoiceReport"></include>
+                   <include name="translateFirmwareVer"></include>
+                   <include name="translateNoTimeSchedule"></include>
+                   <include name="translateRepetition"></include>
+                   <include name="translateSelectWeekOfDate"></include>
+                   <include name="translateSelectWeekend"></include>
+                   <include name="translateSelectWorkday"></include>
+                   <include name="translateSelectEveryday"></include>
+                   <include name="translateNewSchedule"></include>
+               </methods>
+           </class>
+           <class name="com.ecovacs.test.TestIntlTranslate_Portuguese">
+               <methods>
+                   <include name="translateWelcome"></include>
+                   <include name="translateLogin"></include>
+                   <include name="translateForget"></include>
+                   <include name="translateRegister"></include>
+                   <include name="translateMain"></include>
+                   <include name="translateMore"></include>
+                   <include name="translateAbout"></include>
+                   <include name="translateUserAgree"></include>
+                   <include name="translateLanguage"></include>
+                   <include name="translateChangePass"></include>
+                   <include name="translateUnibotClean"></include>
+                   <include name="translateFullScreen"></include>
+                   <include name="translateVirtual"></include>
+                   <include name="translateUnibotSetting"></include>
+                   <include name="translateWorkLog"></include>
+                   <include name="translateContinueClean"></include>
+                   <include name="translateResetMap"></include>
+                   <include name="translateVoiceReport"></include>
+                   <include name="translateFirmwareVer"></include>
+                   <include name="translateNoTimeSchedule"></include>
+                   <include name="translateRepetition"></include>
+                   <include name="translateSelectWeekOfDate"></include>
+                   <include name="translateSelectWeekend"></include>
+                   <include name="translateSelectWorkday"></include>
+                   <include name="translateSelectEveryday"></include>
+                   <include name="translateNewSchedule"></include>
+               </methods>
+           </class>
+           <class name="com.ecovacs.test.TestIntlTranslate_Korean">
+               <methods>
+                   <include name="translateWelcome"></include>
+                   <include name="translateLogin"></include>
+                   <include name="translateForget"></include>
+                   <include name="translateRegister"></include>
+                   <include name="translateMain"></include>
+                   <include name="translateMore"></include>
+                   <include name="translateAbout"></include>
+                   <include name="translateUserAgree"></include>
+                   <include name="translateLanguage"></include>
+                   <include name="translateChangePass"></include>
+                   <include name="translateUnibotClean"></include>
+                   <include name="translateFullScreen"></include>
+                   <include name="translateVirtual"></include>
+                   <include name="translateUnibotSetting"></include>
+                   <include name="translateWorkLog"></include>
+                   <include name="translateContinueClean"></include>
+                   <include name="translateResetMap"></include>
+                   <include name="translateVoiceReport"></include>
+                   <include name="translateFirmwareVer"></include>
+                   <include name="translateNoTimeSchedule"></include>
+                   <include name="translateRepetition"></include>
+                   <include name="translateSelectWeekOfDate"></include>
+                   <include name="translateSelectWeekend"></include>
+                   <include name="translateSelectWorkday"></include>
+                   <include name="translateSelectEveryday"></include>
+                   <include name="translateNewSchedule"></include>
+               </methods>
+           </class>-->
+        </classes>
+    </test>
+</suite>
