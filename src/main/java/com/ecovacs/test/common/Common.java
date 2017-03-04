@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Calendar;
 
 /**
  * Created by ecosqa on 16/7/27.
@@ -47,12 +48,14 @@ public class Common {
         IOSDriver driver = null;
         // set up appium
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.VERSION, "9.2");
+        capabilities.setCapability(MobileCapabilityType.VERSION, "9.2.1");
         capabilities.setCapability(MobileCapabilityType.ACCEPT_SSL_CERTS,true);
         capabilities.setCapability(MobileCapabilityType.PLATFORM, "Mac");
         capabilities.setCapability("deviceName","iphone 4s");
         capabilities.setCapability("platformName", "ios");
         capabilities.setCapability("newCommandTimeout", 0);
+        capabilities.setCapability("unicodeKeyboard", "True");
+        capabilities.setCapability("resetKeyboard", "True");
         try {
             driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         }catch (MalformedURLException e){
@@ -189,6 +192,19 @@ public class Common {
 
     public void setFailType(FailType type){
         failType = type;
+    }
+
+    /**
+     *
+     * @return 0-6
+     */
+    public int getWeekIndex(){
+        Calendar cal = Calendar.getInstance();
+        int iIndex = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        if (iIndex < 0){
+            iIndex = 0;
+        }
+        return iIndex;
     }
 
 }

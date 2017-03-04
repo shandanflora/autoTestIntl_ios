@@ -33,12 +33,22 @@ public class ExcelManage {
         return excelManage;
     }
 
-    private String getCurPath(){
+    /**
+     *
+     * @param strSubPath sub directory
+     * @return if strSubPath is null,return current path
+     *         else return current path and sub directory
+     */
+    public String getCurPath(String strSubPath){
         File directory = new File("");//set current path
         String strPath = "";
         try{
             logger.info(directory.getCanonicalPath());//get path
-            strPath = directory.getCanonicalPath() + "/report/";
+            if(0 == strSubPath.length()){
+                strPath = directory.getCanonicalPath();
+            }else {
+                strPath = directory.getCanonicalPath() + strSubPath;
+            }
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -69,7 +79,7 @@ public class ExcelManage {
         row.createCell(7).setCellValue("Server");
 
         //save
-        saveExcel(wb);
+        saveExcel(wb, "TestReport.xlsx");
         try {
             wb.close();
         }catch (IOException e){
@@ -78,17 +88,17 @@ public class ExcelManage {
 
     }
 
-    private void saveExcel(Workbook wb){
-        File folder = new File(getCurPath());
+    public void saveExcel(Workbook wb, String strExcel){
+        File folder = new File(getCurPath("/report/"));
         if(!folder.exists() && !folder.isDirectory()){
             if(!folder.mkdir()){
                 return;
             }
         }else {
-            Common.getInstance().delAllFile(getCurPath());
+            Common.getInstance().delAllFile(getCurPath("/report/"));
         }
         try {
-            FileOutputStream fileOut = new FileOutputStream(getCurPath() + "TestReport.xlsx");
+            FileOutputStream fileOut = new FileOutputStream(getCurPath("/report/") + strExcel);
             wb.write(fileOut);
             fileOut.close();
         }catch (IOException e){
@@ -99,7 +109,7 @@ public class ExcelManage {
     public void writeColServer(){
         try {
             List<String> listOthers = JsonParse.getJsonParse().readDataFromJson("serverCountry.json", "others");
-            InputStream stream = new FileInputStream(getCurPath() + "TestReport.xlsx");
+            InputStream stream = new FileInputStream(getCurPath("/report/") + "TestReport.xlsx");
             XSSFWorkbook workBook = new XSSFWorkbook(stream);
 
             CellStyle style = workBook.createCellStyle();
@@ -119,7 +129,7 @@ public class ExcelManage {
                 }
             }
             //save excel
-            saveExcel(workBook);
+            saveExcel(workBook, "TestReport.xlsx");
             workBook.close();
             stream.close();
         }catch (Exception e){
@@ -130,7 +140,7 @@ public class ExcelManage {
     public void writeRow(int iRow, ExcelRow excelRow, boolean bPass, Common.FailType type){
 
         try {
-            InputStream stream = new FileInputStream(getCurPath() + "TestReport.xlsx");
+            InputStream stream = new FileInputStream(getCurPath("/report/") + "TestReport.xlsx");
             XSSFWorkbook workBook = new XSSFWorkbook(stream);
             CellStyle style = workBook.createCellStyle();
             //style.setFillForegroundColor(IndexedColors.GREEN.getIndex());
@@ -183,7 +193,7 @@ public class ExcelManage {
                 row.getCell(6).setCellStyle(hlink_style);
             }
             //save excel
-            saveExcel(workBook);
+            saveExcel(workBook, "TestReport.xlsx");
             workBook.close();
             stream.close();
         }catch (Exception e){

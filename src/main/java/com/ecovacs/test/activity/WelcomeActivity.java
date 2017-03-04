@@ -1,11 +1,14 @@
 package com.ecovacs.test.activity;
 
 import com.ecovacs.test.common.Common;
+import com.ecovacs.test.common.TranslateErrorReport;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.Map;
 
 /**
  * Created by ecosqa on 16/11/30.
@@ -45,5 +48,21 @@ public class WelcomeActivity {
 
     public boolean showWelcomeActivity(){
         return Common.getInstance().showActivity(btnLogin);
+    }
+
+    public boolean translate(Map<String, String> tranMap){
+        boolean bRegister = btnRegister.getText().equalsIgnoreCase(tranMap.get("register"));
+        if(!bRegister){
+            TranslateErrorReport.getInstance().insetNewLine(
+                    tranMap.get("language"), "welcome", btnRegister.getText(),
+                    tranMap.get("register"), "fail");
+        }
+        boolean bLogin = btnLogin.getText().equalsIgnoreCase(tranMap.get("login"));
+        if(!bLogin){
+            TranslateErrorReport.getInstance().insetNewLine(
+                    tranMap.get("language"), "welcome", btnLogin.getText(),
+                    tranMap.get("login"), "fail");
+        }
+        return  bRegister && bLogin;
     }
 }
