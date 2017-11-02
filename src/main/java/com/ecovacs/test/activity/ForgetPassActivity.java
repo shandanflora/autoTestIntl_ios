@@ -20,7 +20,7 @@ import java.util.Map;
 public class ForgetPassActivity {
     private static ForgetPassActivity forgetPassActivity = null;
     private static Logger logger = LoggerFactory.getLogger(ForgetPassActivity.class);
-    //private IOSDriver driver = null;
+    private IOSDriver driver = null;
 
     private ForgetPassActivity(){
 
@@ -39,8 +39,6 @@ public class ForgetPassActivity {
     @FindBy(xpath = "//UIAApplication[1]/UIAWindow[1]/UIAButton[2]")
     private IOSElement btnSendEmail = null;
     @FindBy(xpath = "//UIAApplication[1]/UIAWindow[1]/UIAStaticText[3]")
-    private IOSElement staticTextEmail = null;
-    @FindBy(xpath = "//UIAApplication[1]/UIAWindow[1]/UIAStaticText[3]")
     private MobileElement line3Email = null;
     @FindBy(xpath = "//UIAApplication[1]/UIAWindow[1]/UIAStaticText[4]")
     private MobileElement textMessage = null;
@@ -54,7 +52,7 @@ public class ForgetPassActivity {
 
     public void init(IOSDriver driver){
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-        //this.driver = driver;
+        this.driver = driver;
     }
 
     public boolean showActivity(){
@@ -66,14 +64,14 @@ public class ForgetPassActivity {
     }
 
     public boolean sendEmail(String strCountry, String strEmail){
-        eleCountry.click();
+        /*eleCountry.click();
         if(!CountrySelectActivity.getInstance().selectCountry(strCountry)){
             logger.info("Select country failed!!!");
             return false;
-        }
+        }*/
         editEmail.sendKeys(strEmail);
         //hide keyboard
-        staticTextEmail.click();
+        line3Email.click();
         btnSendEmail.click();
         logger.info("Finished to send verify email!!!");
         return true;

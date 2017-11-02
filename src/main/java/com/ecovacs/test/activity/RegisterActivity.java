@@ -84,6 +84,10 @@ public class RegisterActivity {
         back.click();
     }
 
+    public void clickLogin(){
+        titleBarRight.click();
+    }
+
     public boolean fill_Screenshot_Click(String strCountry, String strEmail, String strPass){
         btnSelect.click();
         logger.info("Click 'Country/Region'!!!'");
@@ -110,6 +114,11 @@ public class RegisterActivity {
         staticTextEmail.click();
         //screen shot user agreement
         /*clickAgreement();
+        if(strCountry.contains(" ")){
+            logger.info(strCountry);
+            strCountry = strCountry.replaceAll(" ", "_");
+            logger.info(strCountry);
+        }
         Common.getInstance().screenShot("UserAgree_" + strCountry + ".png", driver);
         Common.getInstance().goBack(driver, 1);
         logger.info("Finished to screen shot user agreement!!!");*/

@@ -154,7 +154,7 @@ public class NewScheduleActivity {
         if (!bpromptStartTitle){
             TranslateErrorReport.getInstance().insetNewLine(
                     tranMap.get("language"), "NewSchedule", promptStartTitle.getText(),
-                    tranMap.get(tranMap.get("start_time")), "fail");
+                    tranMap.get("start_time"), "fail");
         }
         promptCancel.click();
         return true;

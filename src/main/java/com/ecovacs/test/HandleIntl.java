@@ -3,7 +3,6 @@ package com.ecovacs.test;
 import com.ecovacs.test.activity.*;
 import com.ecovacs.test.common.*;
 import com.ecovacs.test.common.TranslateIntl;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,12 +93,23 @@ class HandleIntl {
      * @param strType handle type, ex:Register
      */
 
-    private void verifyEmail(String strJar, String strCountry, String strMail, String strType){
+    private void verifyEmail(String strJar, String strCountry, String strType, String strServer, String strMail, String strPassword){
         String strPath = RegisterActivity.class.getResource("/").getPath();
         strPath = strPath + "../../" + strJar;
         File fileApp = new File(strPath);
         logger.info(strPath);
-        Common.getInstance().executeCommand("java -jar " + fileApp.getName() + " " + strCountry + " " + strMail + " " + strType);
+        // [0:country][1:type][2:imap_server][3:e-mail][4:password]
+        logger.info("[0:country]--" + strCountry);
+        logger.info("[1:type]--" + strType);
+        logger.info("[2:imap_server]--" + strServer);
+        logger.info("[3:e-mail]--" + strMail);
+        logger.info("[4:password]--" + strPassword);
+        if(strCountry.contains(" ")){
+            logger.info(strCountry);
+            strCountry = strCountry.replaceAll(" ", "_");
+            logger.info(strCountry);
+        }
+        Common.getInstance().executeCommand("java -jar " + fileApp.getName() + " " + strCountry + " " + strType + " " + strServer + " " + strMail + " " + strPassword);
         logger.info("********exec command finished!!!");
     }
 
@@ -107,28 +117,37 @@ class HandleIntl {
         Common.getInstance().goBack(androidDriver, iNum);
     }*/
 
-    boolean registerAndLogin(String strCountry, String strEmailType, String strEmail, String strPass){
+    boolean registerAndLogin(String strCountry, String strServer, String strEmail, String strPass){
         //register
         if(!enterRegisterActivity()){
             return false;
         }
-        if (!RegisterActivity.getInstance().fill_Screenshot_Click(strCountry, strEmail, strPass)) {
+        if (!RegisterActivity.getInstance().fill_Screenshot_Click(strCountry, strEmail, PropertyData.getProperty("register_pass"))) {
+            Common.getInstance().setType(Common.REGISTER_RETURN_TYPE.ALREADY_REGISTER);
             logger.error("Register failed!!! country--" + strCountry);
             return false;
         }
         if(!RetrievePassActivity.getInstance().showRetrieveConfirmActivity()){
-            Common.getInstance().setFailType(Common.FailType.ALREADY_REGISTER);
+            Common.getInstance().setType(Common.REGISTER_RETURN_TYPE.ALREADY_REGISTER);
             Common.getInstance().goBack(driver, 1);
             logger.error("Not show Retrieve confirm activity!!!");
             return false;
         }
         logger.info("Show active email activity!!!");
+        Common.getInstance().setType(Common.REGISTER_RETURN_TYPE.SENDED_EMAIL);
         //verify email
-        verifyEmail("VerifyEmail.one-jar.jar", strCountry, strEmailType, "Register");
+        verifyEmail("VerifyEmail.one-jar.jar", strCountry, "Register",  strServer, strEmail, strPass);
         //check--login with new password
-        RetrievePassActivity.getInstance().clickLogin();
-        if (!loginWithoutWelcome(strCountry, strEmail, strPass)) {
+        //return register activity
+        RetrievePassActivity.getInstance().clickBack();
+        //return welcome activity
+        RegisterActivity.getInstance().clickBack();
+        WelcomeActivity.getInstance().clickLogin();
+        //RegisterActivity.getInstance().clickLogin();
+        //RetrievePassActivity.getInstance().clickLogin();
+        if (!loginWithoutWelcome(strCountry, strEmail, PropertyData.getProperty("register_pass"))) {
             logger.info("Login failed after forget password country- " + strCountry);
+            Common.getInstance().setType(Common.REGISTER_RETURN_TYPE.REGISTER_FAILED);
             return false;
         }
         if (!logout()) {
@@ -149,20 +168,21 @@ class HandleIntl {
         return true;
     }
 
-    boolean forgetPassword(String strCountry, String strEmailType, String strEmail, String strPass){
+    boolean forgetPassword(String strCountry, String strServer, String strEmail, String strPass){
         if(!enterLoginAcivity()){
             return false;
         }
         LoginActivity.getInstance().clickForgetPass();
         logger.info("Click forget password!!!");
-        if (!ForgetPassActivity.getInstance().showActivity()) {
+        /*if (!ForgetPassActivity.getInstance().showActivity()) {
             Common.getInstance().goBack(driver, 1);
             logger.error("Not show forget password activity!!!");
             return false;
-        }
+        }*/
+        Common.getInstance().waitForSecond(500);
         if (!ForgetPassActivity.getInstance().sendEmail(strCountry, strEmail)) {
             Common.getInstance().goBack(driver, 2);
-            Common.getInstance().setFailType(Common.FailType.NOT_REGISTER);
+            Common.getInstance().setType(Common.REGISTER_RETURN_TYPE.NOT_REGISTER);
             logger.error("Not show retrieve password activity!!!");
             return false;
         }
@@ -174,10 +194,14 @@ class HandleIntl {
             //invalid email
         }
         logger.info("Show retrieve password activity!!!");
-        verifyEmail("VerifyEmail.one-jar.jar", strCountry, strEmailType, "DoFindPass");
+        verifyEmail("VerifyEmail.one-jar.jar", strCountry, "DoFindPass", strServer, strEmail, strPass);
         //check--login with new password
-        RetrievePassActivity.getInstance().clickLogin();
-        if (!loginWithoutWelcome(strCountry, strEmail, strPass)) {
+        //return
+        RetrievePassActivity.getInstance().clickBack();
+        //return login activity
+        ForgetPassActivity.getInstance().clickBack();
+        //RetrievePassActivity.getInstance().clickLogin();
+        if (!loginWithoutWelcome(strCountry, strEmail, PropertyData.getProperty("login_pass"))) {
             logger.info("Login failed after forget password country- " + strCountry);
             Common.getInstance().goBack(driver, 1);
             return false;
@@ -194,13 +218,28 @@ class HandleIntl {
             logger.error("Can not show login activity!!!");
             return false;
         }
-        logger.info("Show login activity!!!");
+        LoginActivity.getInstance().fillInfoAndClick(strEmail, strPass);
+        logger.info("Finished to click login!!!");
+        if(!MainActivity.getInstance().showActivity()){
+            logger.info("Can not show robot list activity!!!");
+            return false;
+        }
+        logger.info("login successfully country- " + strCountry);
+        return true;
+    }
+
+    private boolean loginWithoutWelcome2(String strCountry, String strEmail, String strPass){
+        if(!LoginActivity.getInstance().showLoginActivity()){
+            logger.error("Can not show login activity!!!");
+            return false;
+        }
+        /*logger.info("Show login activity!!!");
         LoginActivity.getInstance().clickCountry();
         if(!CountrySelectActivity.getInstance().selectCountry(strCountry)){
             return false;
         }
-        logger.info("Finished to select country!!!");
-        LoginActivity.getInstance().fillInfoAndClick(strEmail, strPass);
+        logger.info("Finished to select country!!!");*/
+        LoginActivity.getInstance().fillInfoAndClick2(strEmail, strPass);
         logger.info("Finished to click login!!!");
         if(!MainActivity.getInstance().showActivity()){
             logger.info("Can not show robot list activity!!!");
@@ -242,7 +281,7 @@ class HandleIntl {
         return true;
     }*/
 
-    public void changeLanguage(String strLanguage){
+    void changeLanguage(String strLanguage){
         //return deebot clean
         SettingActivity.getInstance().clickBack();
         //return main
@@ -318,9 +357,9 @@ class HandleIntl {
 
     boolean translateMore(){
         MainActivity.getInstance().clickMore();
-        boolean bTranlate = MoreActivity.getInstance().translate(languageMap);
+        return MoreActivity.getInstance().translate(languageMap);
         //MoreActivity.getInstance().clickBack();
-        return bTranlate;
+        //return bTranlate;
     }
 
     boolean translateAbout(){
@@ -445,8 +484,7 @@ class HandleIntl {
     boolean translateTimeSchedule(){
         SettingActivity.getInstance().clickTimeSchedule();
         TimeScheduleActivity.getInstance().clickAddSchedule();
-        boolean bResult = NewScheduleActivity.getInstance().translate(languageMap);
-        return bResult;
+        return NewScheduleActivity.getInstance().translate(languageMap);
     }
 
     boolean translateNewTimeTranslation(){

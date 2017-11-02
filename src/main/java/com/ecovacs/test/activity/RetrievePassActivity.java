@@ -13,11 +13,14 @@ import org.openqa.selenium.support.PageFactory;
  */
 public class RetrievePassActivity {
     private static RetrievePassActivity retrievePassActivity = null;
+    private IOSDriver driver = null;
 
-    @FindBy(xpath = "//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[3]\n")
+    @FindBy(xpath = "//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[3]")
     private IOSElement btnLogin = null;
     @FindBy(xpath = "//UIAApplication[1]/UIAWindow[1]/UIATextView[1]")
     private IOSElement textViewForgetInfo = null;
+    @FindBy(xpath = "//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[1]")
+    private IOSElement back = null;
 
     private RetrievePassActivity(){
 
@@ -32,10 +35,20 @@ public class RetrievePassActivity {
 
     public void init(IOSDriver driver){
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+        this.driver = driver;
     }
 
     public void clickLogin(){
         btnLogin.click();
+    }
+
+    public void clickBack(){
+        back.click();
+    }
+
+
+    public void clickLogin_AfterRes(){
+        driver.findElementByXPath("//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[2]/UIAButton[3]").click();
     }
 
 

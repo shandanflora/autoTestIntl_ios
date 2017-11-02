@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,12 +26,20 @@ public class Common {
     private static Logger logger = LoggerFactory.getLogger(Common.class);
     private static Common common = null;
     private FailType failType = null;
+    private REGISTER_RETURN_TYPE returnType = null;
 
 
     //
     public enum FailType{
         NOT_REGISTER, //user not register
         ALREADY_REGISTER //user had registered
+    }
+
+    public enum REGISTER_RETURN_TYPE{
+        NOT_REGISTER, //user not register
+        ALREADY_REGISTER, //user had registered
+        SENDED_EMAIL, //had sent active email
+        REGISTER_FAILED //can not active email
     }
 
     private Common(){
@@ -63,6 +72,45 @@ public class Common {
             logger.info("exception: " + e.toString());
         }
         return driver;
+    }
+
+    public boolean deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            if(children == null){
+                return false;
+            }
+            //recursion delete subfolder
+            for(String strFile:children) {
+                boolean success = deleteDir(new File(dir, strFile));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        //delete empty folder or file
+        return dir.delete();
+    }
+
+    /**
+     * @param strSubPath sub directory
+     * @return if strSubPath is null,return current path
+     *         else return current path and sub directory
+     */
+    public String getCurPath(String strSubPath){
+        File directory = new File("");//set current path
+        String strPath = "";
+        try{
+            logger.info(directory.getCanonicalPath());//get path
+            if(0 == strSubPath.length()){
+                strPath = directory.getCanonicalPath();
+            }else {
+                strPath = directory.getCanonicalPath() + strSubPath;
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return strPath;
     }
 
     boolean delAllFile(String path) {
@@ -161,6 +209,14 @@ public class Common {
             e.printStackTrace();
         }
         return output.toString();
+    }
+
+    public  REGISTER_RETURN_TYPE getType(){
+        return returnType;
+    }
+
+    public void setType(REGISTER_RETURN_TYPE type){
+        returnType = type;
     }
 
     public boolean showActivity(WebElement element){

@@ -5,13 +5,14 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCreationHelper;
 import org.apache.poi.xssf.usermodel.XSSFHyperlink;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
+/*import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.poi.xssf.usermodel.XSSFSheet;*/
 
 import java.io.*;
 import java.util.List;
+
 
 /**
  * Created by ecosqa on 16/12/17.
@@ -20,7 +21,7 @@ import java.util.List;
 public class ExcelManage {
 
     private static ExcelManage excelManage = null;
-    private static Logger logger = LoggerFactory.getLogger(ExcelManage.class);
+    //private static Logger logger = LoggerFactory.getLogger(ExcelManage.class);
 
     private ExcelManage(){
 
@@ -31,28 +32,6 @@ public class ExcelManage {
             excelManage = new ExcelManage();
         }
         return excelManage;
-    }
-
-    /**
-     *
-     * @param strSubPath sub directory
-     * @return if strSubPath is null,return current path
-     *         else return current path and sub directory
-     */
-    public String getCurPath(String strSubPath){
-        File directory = new File("");//set current path
-        String strPath = "";
-        try{
-            logger.info(directory.getCanonicalPath());//get path
-            if(0 == strSubPath.length()){
-                strPath = directory.getCanonicalPath();
-            }else {
-                strPath = directory.getCanonicalPath() + strSubPath;
-            }
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        return strPath;
     }
 
     public void init(){
@@ -88,28 +67,28 @@ public class ExcelManage {
 
     }
 
-    public void saveExcel(Workbook wb, String strExcel){
-        File folder = new File(getCurPath("/report/"));
+    void saveExcel(Workbook wb, String strExcel){
+        File folder = new File(Common.getInstance().getCurPath("/report/"));
         if(!folder.exists() && !folder.isDirectory()){
             if(!folder.mkdir()){
                 return;
             }
         }else {
-            Common.getInstance().delAllFile(getCurPath("/report/"));
+            Common.getInstance().delAllFile(Common.getInstance().getCurPath("/report/"));
         }
         try {
-            FileOutputStream fileOut = new FileOutputStream(getCurPath("/report/") + strExcel);
+            FileOutputStream fileOut = new FileOutputStream(Common.getInstance().getCurPath("/report/") + strExcel);
             wb.write(fileOut);
             fileOut.close();
         }catch (IOException e){
             e.printStackTrace();
         }
     }
-
+/*
     public void writeColServer(){
         try {
             List<String> listOthers = JsonParse.getJsonParse().readDataFromJson("serverCountry.json", "others");
-            InputStream stream = new FileInputStream(getCurPath("/report/") + "TestReport.xlsx");
+            InputStream stream = new FileInputStream(Common.getInstance().getCurPath("/report/") + "TestReport.xlsx");
             XSSFWorkbook workBook = new XSSFWorkbook(stream);
 
             CellStyle style = workBook.createCellStyle();
@@ -136,11 +115,11 @@ public class ExcelManage {
             e.printStackTrace();
         }
     }
-
-    public void writeRow(int iRow, ExcelRow excelRow, boolean bPass, Common.FailType type){
+*/
+    public void writeRow(int iRow, ExcelRow excelRow, boolean bPass, Common.REGISTER_RETURN_TYPE type){
 
         try {
-            InputStream stream = new FileInputStream(getCurPath("/report/") + "TestReport.xlsx");
+            InputStream stream = new FileInputStream(Common.getInstance().getCurPath("/report/") + "TestReport.xlsx");
             XSSFWorkbook workBook = new XSSFWorkbook(stream);
             CellStyle style = workBook.createCellStyle();
             //style.setFillForegroundColor(IndexedColors.GREEN.getIndex());
@@ -168,8 +147,15 @@ public class ExcelManage {
             hlink_style.setFont(hlink_font);
             //set link address
             XSSFCreationHelper helper = new XSSFCreationHelper(workBook);
+            //replace space of string
+            String strCountry = excelRow.getCountry();
+            if(excelRow.getCountry().contains(" ")){
+                System.out.println(strCountry);
+                strCountry = strCountry.replaceAll(" ", "_");
+                System.out.println(strCountry);
+            }
 
-            if(type != Common.FailType.ALREADY_REGISTER && excelRow.getType().equals("Register")){
+            if(type != Common.REGISTER_RETURN_TYPE.ALREADY_REGISTER && excelRow.getType().equals("Register")){
                 XSSFHyperlink fileLink4 = new XSSFHyperlink(helper.createHyperlink(HyperlinkType.FILE));
                 XSSFHyperlink fileLink5 = new XSSFHyperlink(helper.createHyperlink(HyperlinkType.FILE));
                 //user agreement.png
@@ -184,13 +170,21 @@ public class ExcelManage {
                 row.getCell(5).setCellStyle(hlink_style);
             }
 
-            if(type != Common.FailType.NOT_REGISTER && excelRow.getType().equals("ForgetPassword")){
+            if(type != Common.REGISTER_RETURN_TYPE.NOT_REGISTER && excelRow.getType().equals("ForgetPassword")){
                 XSSFHyperlink fileLink6 = new XSSFHyperlink(helper.createHyperlink(HyperlinkType.FILE));
                 //reset password.png
                 row.createCell(6).setCellValue("click for view");
                 fileLink6.setAddress("screenShots/doResetPass-" + excelRow.getCountry() + ".png");
                 row.getCell(6).setHyperlink(fileLink6);
                 row.getCell(6).setCellStyle(hlink_style);
+            }
+            List<String> listOthers = JsonParse.getJsonParse().readDataFromJson("serverCountry.json", "notOthers");
+            CellStyle style7 = workBook.createCellStyle();
+            style7.setFillForegroundColor(HSSFColor.LEMON_CHIFFON.index);
+            style7.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+            if(!listOthers.contains(excelRow.getCountry())){
+                row.createCell(7).setCellStyle(style7);
             }
             //save excel
             saveExcel(workBook, "TestReport.xlsx");

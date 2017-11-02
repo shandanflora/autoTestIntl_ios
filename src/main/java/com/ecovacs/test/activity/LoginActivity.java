@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 public class LoginActivity {
     private static LoginActivity loginActivity = null;
     private static Logger logger = LoggerFactory.getLogger(LoginActivity.class);
-    //private IOSDriver driver = null;
+    private IOSDriver driver = null;
 
     private LoginActivity(){}
 
@@ -65,7 +65,7 @@ public class LoginActivity {
 
     public void init(IOSDriver driver){
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-        //this.driver = driver;
+        this.driver = driver;
     }
 
     public void clickBack(){
@@ -90,6 +90,14 @@ public class LoginActivity {
         editPass.sendKeys(strPass);
         staticPassword.click();
         btnLogin.click();
+    }
+
+    public void fillInfoAndClick2(String strEmail, String strPass){
+        driver.findElementByXPath("//UIAApplication[1]/UIAWindow[1]/UIATextField[6]").sendKeys(strEmail);
+        driver.findElementByXPath("//UIAApplication[1]/UIAWindow[1]/UIAStaticText[9]").click();
+        driver.findElementByXPath("//UIAApplication[1]/UIAWindow[1]/UIASecureTextField[2]").sendKeys(strPass);
+        driver.findElementByXPath("//UIAApplication[1]/UIAWindow[1]/UIAStaticText[9]").click();
+        driver.findElementByXPath("//UIAApplication[1]/UIAWindow[1]/UIAButton[13]").click();
     }
 
     private boolean staticUI(Map<String, String> tranMap){

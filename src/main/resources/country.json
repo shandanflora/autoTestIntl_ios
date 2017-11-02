@@ -1,7 +1,44 @@
 {
-  "countries":[
-    "Anguilla",
-    "Antigua and Barbuda"
+  "mail":[
+    {
+      "server":"imap.sina.com",
+      "email":"ecovacstest123@sina.com",
+      "password":"112233445566"
+    },
+    {
+      "server":"imap.sina.com",
+      "email":"ecovacs234@sina.com",
+      "password":"test123"
+    },
+    {
+      "server":"imap.sina.com",
+      "email":"autotest0424@sina.com",
+      "password":"test1111"
+    },
+    {
+      "server":"imap.sohu.com",
+      "email":"ecovace234@sohu.com",
+      "password":"test123"
+    },
+    {
+      "server":"imap.sohu.com",
+      "email":"autotest0424@sohu.com",
+      "password":"test1111"
+    },
+    {
+      "server":"imap-mail.outlook.com",
+      "email":"autotest0427@hotmail.com",
+      "password":"test1111"
+    },
+    {
+      "server":"imap-mail.outlook.com",
+      "email":"autotest0424@outlook.com",
+      "password":"test1111"
+    }
+  ],
+    "countries":[
+    "Denmark",
+    "Sweden"
   ],
   "sheets":[
     "English",
